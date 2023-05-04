@@ -32,11 +32,12 @@ class Session(models.Model):
         return f"{self.session_name}"
 
 class Classes(models.Model):
-    label = models.CharField(primary_key=True, unique=True, max_length=255)
+    class_id = models.IntegerField(primary_key=True, unique=True, default=1)
+    label = models.CharField(max_length=255)
     description = models.CharField(max_length=2**16)
 
     def __str__(self):
-        return f"{self.label}"
+        return f"{self.class_id} {self.label}"
 class Trial(models.Model):
     trial_id = models.IntegerField(primary_key=True, unique=True)
     label = models.ForeignKey(Classes, on_delete=models.CASCADE)
