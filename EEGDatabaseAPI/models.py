@@ -56,6 +56,7 @@ class TimeSerie(TimescaleModel):
     value = models.FloatField()
     subject_id = models.ForeignKey(Subject, on_delete=models.CASCADE, null=True, blank=True)
     trial = models.IntegerField(null=True, blank=True)
+    class_id = models.ForeignKey(Classes, on_delete=models.CASCADE, to_field='class_id')
     session = models.ForeignKey(Session , on_delete=models.CASCADE, null=True, blank=True)
     run = models.IntegerField(default=0)
     channel = models.ForeignKey(Channel, on_delete=models.CASCADE)
