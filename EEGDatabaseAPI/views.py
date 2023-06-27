@@ -1,7 +1,9 @@
 from django.shortcuts import render
 from .models import Metadata, Measure, Session, Classes, Subject, Channel, TimeSerie
-from .serializers import MetadataSerializer, MeasureSerializer, SessionSerializer, ClassesSerializer, SubjectSerializer, ChannelSerializer, TimeSerieSerializer
+from .serializers import MetadataSerializer, MeasureSerializer, SessionSerializer, ClassesSerializer, SubjectSerializer, ChannelSerializer, TimeSerieGetSerializer, TimeSeriePostSerializer
 from rest_framework import generics
+from django_filters.rest_framework import DjangoFilterBackend
+from .filters import TimeSerieFilter
 # Create your views here.
 
 class MetadataView(generics.ListCreateAPIView):
@@ -30,4 +32,11 @@ class ChannelView(generics.ListCreateAPIView):
 
 class TimeSerieView(generics.ListCreateAPIView):
     queryset = TimeSerie.objects.all()
-    serializer_class = TimeSerieSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_class = TimeSerieFilter
+    #serializer_class = TimeSerieSerializer
+    def get_serializer_class(self):
+        if self.request.method == 'GET':
+            return TimeSerieGetSerializer
+        elif self.request.method == 'POST':
+            return TimeSeriePostSerializer

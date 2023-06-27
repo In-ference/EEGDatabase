@@ -31,10 +31,8 @@ class ChannelSerializer(serializers.ModelSerializer):
         model = Channel
         fields = ['channel_name']
 
-class TimeSerieSerializer(serializers.ModelSerializer):
-    #class Meta:
-    #    model = TimeSerie
-    #    fields = ['time', 'value', 'subject_id', 'trial', 'session', 'run', 'channel']
+class TimeSeriePostSerializer(serializers.ModelSerializer):
+
     time = serializers.ListField(child=serializers.FloatField())
     value = serializers.ListField(child=serializers.FloatField())
     subject_id = serializers.PrimaryKeyRelatedField(queryset=Subject.objects.all())
@@ -59,6 +57,12 @@ class TimeSerieSerializer(serializers.ModelSerializer):
             ))
         TimeSerie.objects.bulk_create(data_list)
         return validated_data
+    
+    class Meta:
+        model = TimeSerie
+        fields = "__all__"
+
+class TimeSerieGetSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = TimeSerie
